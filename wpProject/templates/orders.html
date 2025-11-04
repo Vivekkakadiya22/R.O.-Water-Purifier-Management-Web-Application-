@@ -1,0 +1,189 @@
+<!-- Update your HTML code to include JavaScript for confirmation dialog -->
+{% include "header.html" %}
+
+{% load cart %}
+{% load custom_filter %}
+
+<style>
+  /* Add your custom CSS styles here */
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .order-table th,
+  .order-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+
+  
+  .order-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .order-table td img {
+    max-width: 100px;
+    height: auto;
+  }
+  
+  a{
+    text-decoration: none;
+  }
+
+  .badge {
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  
+  .badge-success {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .badge-danger {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  .invoice-btn{
+    background-color: #fff;
+    color:#14A44D;
+    border: 1px solid #14A44D;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 90%;
+    margin-top: 10px;
+    margin-left: 3%;
+    cursor: pointer;
+  }
+  
+  .btn-cancel-order {
+    background-color: #fff;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 120%;
+    cursor: pointer;
+    margin-left: -5%;
+  }
+  .btn-cancel-order:hover{
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  .container{
+    margin-top: 5%;
+  }
+</style>
+
+<!-- Start Hero Section -->
+<div class="page-nav no-margin row">
+  <div class="container">
+    <div class="row">
+      <p class="display-4 text-black">Your Orders</p>
+    </div>
+  </div>
+</div>
+<!-- End Hero Section -->
+
+<div class="untree_co-section before-footer-section">
+  <div class="container">
+    {% if orders %}
+    <div class="row mb-5">
+        <div class="site-blocks-table">
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Payment Status</th>
+                <th>Delivery Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+              {% if not order.is_canceled %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><img src="/media/{{ order.product.image_url }}" alt="Product Image"></td>
+                <td style="width: 20%;">{{ order.product.p_name }}</td>
+                <td style="width: 15%;">{{ order.date }}</td>
+                <td style="width: 10%;">{{ order.price|currency }}</td>
+                <td>{{ order.quantity }}</td>
+                <td style="width: 10%;">{{ order.quantity|multiply:order.price|currency }} <br> ({{order.payment_mode}})</td>
+                <td>{% if order.payment_status %}<span class="badge badge-success">Completed</span>{% else %}<span class="badge badge-danger">Pending</span>{% endif %}</td>
+                <td>{% if order.delivery_status %}<span class="badge badge-success">Delivered</span>{% else %}<span class="badge badge-danger">Not Delivered</span>{% endif %}</td>
+                {% if not order.delivery_status %}                  
+                <td style="width: 15%;">
+                  <form class="col-md-12" action="{% url 'cancle_confirm_page' %}" method="post">
+                    {% csrf_token %}
+                      <input type="text" hidden name="order_id" value="{{order.id}}">
+                      <button class="btn-cancel-order" type="submit">Cancel Order</button>
+                  </form>
+
+                  <form action="{% url 'invoice_action' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" hidden name="order_id" value="{{order.id}}">
+                    <button class="btn btn-success invoice-btn" type="submit">Download Invoice</button>
+                  </form>
+                  </td>
+                {% else %}
+                  <td style="width: 15%;">
+                    <b>-</b><br>
+                  <form action="{% url 'invoice_action' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" hidden name="order_id" value="{{order.id}}">
+                    <button class="btn btn-success invoice-btn">Download Invoice</button>
+                  </form>
+                  </td>
+                {% endif %}
+              </tr>
+              {% endif %}
+
+              {% if order.is_canceled %}
+              <tr style="background-color: lightgrey;">
+                <td>{{ forloop.counter }}</td>
+                <td><img src="/media/{{ order.product.image_url }}" alt="Product Image"></td>
+                <td style="width: 20%;">{{ order.product.p_name }}</td>
+                <td style="width: 15%;">{{ order.date }}</td>
+                <td style="width: 10%;">{{ order.price|currency }}</td>
+                <td>{{ order.quantity }}</td>
+                <td style="width: 15%;">{{ order.quantity|multiply:order.price|currency }} <br> ({{order.payment_mode}})
+                </td>
+                <td colspan="3"><b style="color: #dc3545;">This order is canceled by you</b></td>
+              </tr>
+              {% endif %}
+
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+    {% else %}
+    <h2 style="text-align: center;">You have not ordered anything yet, please click here to place an order</h2>
+    <div class="col-md-12 m-4" style="text-align: center;">
+      <form action="/products/" method="post">
+        {% csrf_token %}
+        <button class="btn btn-outline-black col-md-4 btn-sm btn-block">Continue Shopping</button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Start Footer Section -->
+{% include "footer.html" %}
+<!-- End Footer Section -->
+
+<!-- Add JavaScript for confirmation dialog -->
+

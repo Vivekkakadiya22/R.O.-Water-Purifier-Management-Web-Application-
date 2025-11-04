@@ -1,0 +1,111 @@
+{% load cart %}
+{% load custom_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase plan</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .plan-container {
+            max-width: 600px;
+            margin: 50px auto;
+            margin-top: 5%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .pay-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            width: 50%; 
+            margin-top: 20px;                  
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background-color: #0056b3;
+        }
+        img{
+            height: 100px;
+        }
+        a{
+            text-decoration: none;
+        }
+        table{
+            margin-left: 10%;
+            width: 80%;
+        }
+        td{
+            text-align: justify;
+        }
+        /* table,td{
+            padding: 10px;
+        } */
+        input{
+            width: 80%;
+            padding: 8px;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+        textarea{
+            width: 80%;
+            padding: 8px;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="plan-container">
+    <h2>Purchase Plan</h2>
+    <form action="{% url 'amc_purchase_action' %}" method="post">
+        {% csrf_token %}
+    <h3 style="text-align: left;">Plan Details</h3>
+    <table>
+        <tr>
+            <input type="text" hidden name="plan_id" value="{{plan_obj.id}}">
+            <td>Plan name</td>
+            <td> : </td>
+            <td><input type="text" name="plan_name" value="{{plan_obj.plan_name}}" readonly></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td> : </td>
+            <td><input type="text" name="price1" value="{{plan_obj.price|currency}}" readonly></td>
+            <input type="text" hidden name="price" value="{{plan_obj.price}}">
+        </tr>
+        <tr>
+            <td colspan="3"><p><b>About plan : </b>{{plan_obj.plan_description}}</p></td>
+        </tr>
+    </table>
+    <h3 style="text-align: left;">Billing Information</h3>
+    <table>
+        <tr>
+            <td>Phone</td>
+            <td> : </td>
+            <td><input type="text" maxlength="10" name="phone" id="phone" value="{{customer_obj.phoneNo}}" placeholder="Enter your MobileNo" required></td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td> : </td>
+            <td><textarea name="address" rows="4" placeholder="Enter your address" required>{{customer_obj.address}}</textarea></td>
+        </tr>
+    </table>
+    <p style="text-align: left;font-weight:400;">*Make payment online</p>
+    <button type="submit" class="pay-btn">Purchase Plan</button>
+</form>
+</div>
+
+</body>
+</html>

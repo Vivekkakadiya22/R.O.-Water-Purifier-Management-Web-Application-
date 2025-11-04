@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel confirmation Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .payment-container {
+            max-width: 600px;
+            margin: 50px auto;
+            margin-top: 12%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .pay-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            width: 20%; 
+            margin-top: 20px;                  
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background-color: #0056b3;
+        }
+        img{
+            height: 100px;
+        }
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <h2>Are you sure you want to cancel this order?</h2>
+    <br>
+    <!-- <form action="" method="post">
+        {% csrf_token %} -->
+        <!-- <input type="text" hidden name="order_id" value="{{order_id}}"> -->
+        <a href="{% url 'cancel_reason_page' order_id  %}"><button class="pay-btn">Yes</button></a>
+        <a href="{% url 'orders_page' %}"><button class="pay-btn">No</button></a>
+    <!-- </form> -->
+</div>
+
+</body>
+</html>

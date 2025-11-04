@@ -1,0 +1,120 @@
+{% load custom_filter %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>RO WALA - report Download</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <!-- External CSS libraries -->
+    <link type="text/css" rel="stylesheet" href="/static/invoice_assets/fonts/font-awesome/css/font-awesome.min.css">
+
+    <!-- Favicon icon -->
+    <link rel="shortcut icon" href="/static/invoice_assets/img/favicon.ico" type="image/x-icon" >
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900">
+
+    <!-- Custom Stylesheet -->
+    <link type="text/css" rel="stylesheet" href="/static/invoice_assets/css/style.css">
+</head>
+<body>
+
+<!-- Invoice 2 start -->
+<div class="invoice-2 invoice-content">
+    <div class="container">
+        <div class="row" style="width: fit-content;margin-left: -11%;">
+            <div class="col-lg-12">
+                <div class="invoice-inner clearfix">
+                    <div class="invoice-info clearfix" id="invoice_wrapper">
+                        <div class="invoice-contact clearfix">
+                            <div class="row g-0">
+                                <div class="col-sm-12" style="display: flex;justify-content: space-evenly;">
+                                    <div class="logo" style="margin-left: -28%;">
+                                        <img src="/static/assets/images/companylogo.png" alt="logo" style="height: 100px;margin-top: -15%;background-color: whitesmoke;border-radius: 50px;">
+                                    </div>
+                                    <div>
+                                        <h2 class="d-flex" style="color: whitesmoke;">Customer Report</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p style="float: right;padding-right: 50px;">Report Date : {% now "d/m/Y" %}</p>
+                        </div>
+                        <div class="invoice-center">
+                            <div class="table-responsive">
+                                <table class="table mb-0 mt-5 table-striped invoice-table" style="width: -webkit-fill-available;margin-top: 5%;">
+                                    <thead class="bg-active">
+                                    <tr class="tr">
+                                        <th class="p-0 text-start">Customer Id</th>
+                                        <th class="text-center">Customer Name</th>
+                                        <th class="text-center">Email</th>
+                                        <th class="text-end">Contact</th>
+                                        <th class="text-center">Gender</th>
+                                        <th class="text-center">City/State</th>
+                            
+                                        <th class="text-center">Date of Account Created</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% for item in customer_obj %}
+                                    <tr class="tr">
+                                        <td>
+                                           
+                                                <span>{{item.id}}</span>
+                                          
+                                        </td>
+                                      
+                                        <td class="text-center"> {{item.firstname}} {{item.lastname}}</td>
+                                        <td class="text-center">{{item.email}}</td>
+                                        <td class="text-center">{{item.phoneNo}}</td>
+                                        <td class="text-center">{{item.gender}}</td>
+                                        <td class="text-center">{{item.city}}, {{item.state}}</td>
+                                    
+                                        <td class="text-end" style="width: 16%;">{{ item.is_created|date:"d/m/Y" }}</td>
+                                        
+                                    </tr>
+                                {% endfor %}
+
+                                   
+                                   
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                       
+                        <div class="invoice-contact clearfix">
+                            <div class="row g-0">
+                                <div class="col-sm-12" style="display: flex;justify-content: space-evenly;">
+                                    <div class="contact-info clearfix">
+                                        <a href="tel:+55-4XX-634-7071" class="d-flex"><i class="fa fa-phone"></i> +91 9016467984</a>
+                                        <a href="tel:info@themevessel.com" class="d-flex"><i class="fa fa-envelope"></i> rowala234@gmail.com</a>
+                                        <a href="tel:info@themevessel.com" class="mr-0 d-flex d-none-580"><i class="fa fa-map-marker"></i> Shop-5 Abhinandan Complex, Bopal, Ahmedabad</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice-btn-section clearfix d-print-none">
+                        <a href="javascript:window.print()" class="btn btn-lg btn-print">
+                            <i class="fa fa-print"></i> Print Invoice
+                        </a>
+                        <a id="invoice_download_btn" class="btn btn-lg btn-download btn-theme">
+                            <i class="fa fa-download"></i> Download Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Invoice 2 end -->
+<script src="/static/invoice_assets/js/jquery.min.js"></script>
+<script src="/static/invoice_assets/js/jspdf.min.js"></script>
+<script src="/static/invoice_assets/js/html2canvas.js"></script>
+<script src="/static/invoice_assets/js/app.js"></script>
+</body>
+</html>
+

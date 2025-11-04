@@ -1,0 +1,133 @@
+{% load cart %}
+{% load custom_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .payment-container {
+            max-width: 400px;
+            margin: 50px auto;
+            margin-top: 7%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .payment-container h2,h1 {
+            text-align: center;
+        }
+        .payment-options {
+            text-align: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .payment-option img {
+            height: 40px;
+            width: auto;
+        }
+        .amount-field {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .note{
+            border-radius: 8px;
+            width: 20%;
+            padding: 8px;
+            background-color: #ccc;
+            border: none;
+            text-align: center;
+        }
+        .pay-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            width: 50%;
+            margin-left: 25%;
+            margin-top: 15%;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .payment-value{
+            text-align: center;
+        }
+        .pay-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <h2>Payment</h2>
+    
+    <div class="payment-options">
+        <div class="payment-option">
+            <img src="/static/assets/images/upi.jpeg" alt="Visa">
+        </div>
+        <p>Paying RO WALA PVT. LTD.</p>
+        <small>rowala123@cnrb</small>
+        <!-- Add more payment options as needed -->
+    </div>
+    <br>
+    <form  action="{% url 'payment_process' %}" method="post">
+        {% csrf_token %}
+        <div class="payment-value">
+        {% if totalamount %}
+            <h1>{{totalamount|currency}}</h1>
+            <input type="text" hidden name="totalamount" value="{{totalamount}}">
+            <input type="text" hidden name="order_id" value="{{orders.id}}">
+            <input type="text" class="note" name="note" maxlength="50" placeholder="Add a note">
+        {% endif %}
+        {% if price %}
+            <h1>{{price|currency}}</h1>
+            <input type="text" hidden name="price" value="{{price}}">
+            <input type="text" hidden name="amc_orderid" value="{{amc_obj.id}}">
+            <input type="text" class="note" name="note1" maxlength="50" placeholder="Add a note">    
+        {% endif %}
+        </div>
+        <br>
+        {% if totalamount %}
+        <button id="" class="pay-btn" type="submit">Pay {{totalamount|currency}}</button>
+        {% endif %}
+
+        {% if price %}
+        <button id="" class="pay-btn" type="submit">Pay {{price|currency}}</button>
+        {% endif %}
+    </form>
+</div>
+<script>
+    document.getElementById("paymentForm").addEventListener("submit", function(event) {
+        // Prevent the form from submitting immediately
+        event.preventDefault();
+        
+        // Get the pay button element
+        var payBtn = document.getElementById("payBtn");
+        
+        // Store the original button text
+        var originalBtnText = payBtn.innerHTML;
+        
+        // Update button text to loading message
+        payBtn.innerHTML = "Processing payment...";
+        
+        // After 4 seconds, redirect to the next page
+        setTimeout(function() {
+            window.location.href = "{% url 'paymentsuccessfullPage' %}"; // Replace 'next_page' with the URL of your next page
+            
+            // Restore original button text (optional)
+            payBtn.innerHTML = originalBtnText;
+        }, 4000); // Adjust time as needed
+    });
+</script>
+
+</body>
+</html>

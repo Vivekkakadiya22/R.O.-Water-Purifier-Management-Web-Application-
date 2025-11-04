@@ -1,0 +1,69 @@
+{% extends "products.html" %}
+
+{% load cart %}
+{% load custom_filter %}
+
+
+{% block content %}
+<h2 style="text-align: center;"><b>Search Results:</b></h2>
+{% if allproducts %}
+<div class="row mt-4">
+    {% for d in allproducts %}
+    <div class="col-lg-3 col-md-4 mb-4" id="{{ d.id }}">
+        <div class="col-lg-3 col-md-4 mb-4" id="{{ d.id }}">
+            <div class="product bg-white p-4 text-center shadow-md" style="height:530px;width: 300px;">
+                <a href="{% url 'productDetails' d.id %}">
+                <img class="mah-150 pro-img" src="/media/{{ d.image_url }}" alt="">
+                 <div class="d-inline-block" style="word-wrap: break-word;">
+                    <h4 class="fw-bolder fs-5 mt-4">{{ d.p_name }}</h4>
+                    <span class="fw-bolder fs-4">{{ d.price|currency }}</span> 
+                 </div>
+                </a>
+                        {% if d.qty > 0 %}
+                                <div class="d-inline-block mt-3">
+                                {% if not d|is_in_cart:request.session.cart %}
+                                    <form action="/products/#{{ d.id }}" method="post">
+                                        {% csrf_token %}
+                                        <input hidden type="text" name="product" value="{{ d.id }}">
+                                        <button type="submit" name="addcart" class="btn btn-primary px-5 addtocart">Add to cart</button>
+                                    </form> 
+                                {% endif %} 
+                                
+                                <form action="{% url 'checkout_buynow' %}" method="post">
+                                    {% csrf_token %}
+                                    <input hidden type="text" name="product" value="{{ d.id }}">
+                                    <button type="submit" class="btn btn-primary px-5 buynow">Buy Now</button>
+                                </form>
+                                
+                                </div>
+                            {% else %}
+                                <div class="d-inline-block mt-5">
+                                    <h4 style="color: rgb(236, 68, 68);">Out of the Stock</h4>
+                                </div>
+                            {% endif %}
+                 {% if d|is_in_cart:request.session.cart %}
+                     <div class="card-footer p-0 row nu-gutter mt-2"  style="border-radius: 2%;">
+                         <form action="/products/#{{ d.id }}" class="col-2 " method="post">
+                             {% csrf_token %}
+                             <input hidden type="text" name="product" value="{{ d.id }}">
+                             <input hidden type="text" name="remove" value="True">
+                             <input type="submit" class="btn btn-block btn-secondary" style="width: auto;margin-left: -12px;" value="-">
+                         </form>
+                         <div class="text-center m-2 col">{{d|cart_quantity:request.session.cart}} in cart</div>
+                         <form action="/products/#{{ d.id }}" class="col-2 " method="post">
+                             {% csrf_token %}
+                             <input hidden type="text" name="product" value="{{ d.id }}">
+                             <input type="submit" class="btn btn-block btn-secondary" style="width: auto;" value="+">
+                         </form>
+                     </div>
+                {% endif %}
+            </div>
+          
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<h4 style="text-align: center;">Product not found</h4>
+{% endif %}
+{% endblock content %}

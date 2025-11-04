@@ -1,0 +1,89 @@
+input{
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input:hover{
+    border-color: rgb(51, 135, 231);
+}
+
+small{
+    margin-right: 16rem;
+}
+
+#emaillabel{
+    margin-bottom: 1rem;
+    margin-right: 28rem;
+}
+
+#passwordlabel{
+    margin-bottom: 1rem;
+    margin-right: 30rem;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: none;
+}
+
+
+.background{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('/static/assets/images/bg.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+    filter: blur(10px);
+}
+
+.btn{
+    color: black;
+    background-color: white;
+    margin-top: 2rem;
+}
+
+.container{
+    background-color:aliceblue;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+#container{
+    width: 700px;
+    height: auto;
+}
+
+h2{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+p{
+    margin-top: 2rem;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+
+.fa-eye{
+    position: absolute;
+    top: 43.5%;
+    right: 32%;
+    cursor: pointer;
+    color: gray;
+}

@@ -1,0 +1,102 @@
+{% include "header.html" %}
+<style>
+  h3{
+    font-weight: bolder;
+  }
+  p{
+    
+  }
+  .feedback{
+    border: 1px solid none;
+    border-radius: 25px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    width: 40%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    margin-left: 30%;
+    text-align: center;
+    height: auto;
+    
+  }
+  .rate-box {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0.1rem;
+  margin-right: 30%;
+}
+.rate-box input {
+  display: none;
+}
+.rate-box input:hover ~ .star:before {
+  color: rgba(255, 204, 51, 0.5);
+}
+.rate-box input:active + .star:before {
+  transform: scale(0.9);
+}
+.rate-box input:checked ~ .star:before {
+  color: #ffcc33;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.8);
+}
+.rate-box .star:before {
+  content: "★";
+  display: inline-block;
+  font-family: "Potta One", cursive;
+  font-size: 3rem;
+  cursor: pointer;
+  color: #0000;
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5);
+  background-color: #aaa;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: all 0.3s;
+}
+textarea{
+  border-radius: 25px;
+  border-color: gray;
+  border-width: 3px;
+  padding: 20px;
+  font-size: large;
+}
+
+.send{
+  width: 40%;
+  padding: 10px;
+  border-radius: 50px;
+  border: none;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: whitesmoke;
+  background-color: #3965e3;
+}
+</style>
+<form action="/feedback_action/" method="post">
+  {% csrf_token %}
+<div class="feedback">
+        {% if message %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        {% endif %}
+    <h3>Rate your experience</h3>
+    <p>We highly value your feedback! Kindly take a moment to rate your experience and provide us with your valuable feedback.</p>
+    <div class="rate-box mt-2">
+      <input type="radio" name="star" value="5" id="star0"/>
+      <label class="star" for="star0"></label>
+      <input type="radio" name="star" value="4" id="star1"/>
+      <label class="star" for="star1"></label>
+      <input type="radio" name="star" id="star2" value="3"/>
+      <label class="star" for="star2"></label>
+      <input type="radio" name="star" value="2" id="star3"/>
+      <label class="star" for="star3"></label>
+      <input type="radio" name="star" value="1" id="star4" checked="checked"/>
+      <label class="star" for="star4"></label>
+    </div>
+    <textarea class="mt-3" name="feedback" id="feedback" cols="50" rows="10" placeholder="Write your experience about our company!" required></textarea>
+    <button class="send mt-3" type="submit">Send</button>
+</div>
+</form>
+
+{% include "footer.html" %}

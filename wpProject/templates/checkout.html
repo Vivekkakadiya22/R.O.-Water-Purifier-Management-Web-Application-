@@ -1,0 +1,128 @@
+{% load cart %}
+{% load custom_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>Checkout Form</title>
+  <!-- Bootstrap CSS -->
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    h2{
+      text-align:center
+    }
+    .checkout-form {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    li{
+      list-style-type: none;
+    }
+    td{
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <form class="checkout-form" action="/checkout_action/" method="post">
+    {% csrf_token %}
+    <h2 class="mb-4">Checkout</h2>
+    
+    <!-- Product Information -->
+    <h4 class="mt-4 mb-3">Product Details</h4>
+    {% if cart %}
+    {% for p in products %}
+    <div class="form-group">
+      <table>
+        <tr>
+            <td><b>{{forloop.counter}})</b></td>
+            <td rowspan="3"><img src="/media/{{p.image_url}}" width="50" alt="product image"></td>
+            <td>Product Name</td>
+            <td> : </td>
+            <td>{{p.p_name}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Price</td>
+            <td> : </td>
+            <td>{{p.price|currency}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Qty</td>
+            <td> : </td>
+            <td>{{ p|cart_quantity:request.session.cart }}</td>
+        </tr>
+        
+    </table>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <tr>
+      <td>Total amount : </td>
+      <td id="totalAmount">{{ products|total_cart_price:request.session.cart|currency }}</td>
+    </tr>
+    <input type="text" hidden name="totalAmount" value="{{ products|total_cart_price:request.session.cart }}">
+    <!-- Billing Information -->
+    <h4 class="mt-4 mb-3">Billing Information</h4>
+    
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="text" maxlength="10" name="phone" class="form-control" value="{{customer.phoneNo}}" id="phone" placeholder="Enter your MobileNo" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea class="form-control" name="address" id="address" rows="3" placeholder="Enter your address" required>{{customer.address}}</textarea>
+    </div>
+    
+    <!-- Payment Information -->
+    <h4 class="mt-4 mb-3">Payment Information</h4>
+    
+     <div class="form-group">
+      <label for="Payment">Payment Mode</label>
+      <div style="display: flex;">
+        <input type="radio" class="" id="cod" name="paymentmode" value="COD" required style="width: auto;">&nbsp;&nbsp;<label style="padding-top: 5px;" for="COD">COD</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" class="" id="online" name="paymentmode" value="Online" required style="width: auto;">&nbsp;&nbsp;<label style="padding-top: 5px;" for="Online">Online</label>
+      </div>
+    </div>
+    
+    <!-- Submit Button -->
+    <button type="submit" onclick="submitForm()" class="btn btn-primary">Place Order</button>
+    <a href="/cart/" class="btn btn-outline-primary">Cancle</a>
+  </form>
+</div>
+
+<!-- <script>
+  function submitForm() {
+    var paymentMode = document.querySelector('input[name="paymentmode"]:checked');
+    if (paymentMode && paymentMode.value === "Online") {
+      var totalAmount = document.getElementById('totalAmount').innerText;
+      console.log("Total Amount:", totalAmount); // Debugging
+      // Redirect to payment page with total amount as query parameter
+      window.location.href = "/payment/?totalAmount=" + encodeURIComponent(totalAmount.trim());
+    } else {
+      // If payment mode is not online, just submit the form as usual
+      document.querySelector('.checkout-form').submit();
+    }
+  }
+</script> -->
+
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

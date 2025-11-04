@@ -1,0 +1,83 @@
+{% load custom_filter %}
+{% load cart %}
+{% include "header.html" %}
+  <style>
+    /* Add your custom styles here */
+    /* For example, you can add some spacing or adjust colors */
+    body {
+      padding: 20px;
+    }
+    img{
+      width:auto;
+	  }
+    .img-container{
+      text-align: center;
+      margin-top:20px;
+    }
+    .productDetails{
+      margin-left: 30%;
+      width: 50%;
+    }
+    .btndetail{
+      background-color: white;
+      color: #1690f0;
+    }
+  </style>
+</head>
+<body>
+
+
+    
+      {% for detail in productDetail %}
+      <div class="img-container">
+        <img src="/media/{{detail.image_url}}" alt="Product Image" class=""  height="500px">
+      </div>
+      <div class="col-md-12 productDetails">
+        <h2 class="mt-4">{{detail.p_name}}</h2>
+        <p class="text-muted">Category: {{detail.cat_id}}</p>
+        <h3 class="mt-4">{{detail.price|currency}}</h3>
+      {% if detail.qty > 0%}
+        {% if not detail|is_in_cart:request.session.cart %}
+        <form action="{% url 'productDetails' detail.id %}" method="post">
+        {% csrf_token %}
+        <input hidden type="text" name="productDetail" value="{{ detail.id }}">
+        <button class="btn btn-primary btndetail col-md-4" name="addcart">Add to Cart</button>
+      </form>
+      <form action="{% url 'checkout_buynow' %}" method="post">
+        {% csrf_token %}
+        <input hidden type="text" name="product" value="{{ detail.id }}">
+        <button type="submit" class="btn btn-primary px-5 buynow" style="width: 33%;">Buy Now</button>
+      </form>
+      {% else %}
+      <div class="card-footer p-0 row nu-gutter mt-2" style="border-radius: 2%;width: fit-content;">
+      <form action="/products/#{{ detail.id }}" class="col-2 " method="post">
+        {% csrf_token %}
+        <input hidden type="text" name="product" value="{{ detail.id }}">
+        <input hidden type="text" name="remove" value="True">
+        <input type="submit" class="btn btn-block btn-secondary" style="width: auto;margin-left: -12px;" value="-">
+      </form>
+      <div class="text-center m-2 col">{{detail|cart_quantity:request.session.cart}} in cart</div>
+      <form action="/products/#{{ detail.id }}" class="col-2 " method="post">
+        {% csrf_token %}
+        <input hidden type="text" name="product" value="{{ detail.id }}">
+        <input type="submit" class="btn btn-block btn-secondary" style="width: auto;" value="+">
+      </form>
+      </div>
+      {% endif %}
+    {% else %}
+       <h4 style="color: rgb(236, 68, 68);">Out of Stock</h4>
+    {% endif %}
+
+
+      </div>
+      <div class="row mt-4 m-4">
+      <div class="productDetails">
+        <h4>Product Description</h4>
+        <p>{{detail.description}}</p>
+      </div>
+      </div>
+      {% endfor %}
+
+    <!-- Add more sections as needed, e.g., reviews, specifications, etc. -->
+
+  {% include "footer.html" %}

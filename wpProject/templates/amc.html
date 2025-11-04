@@ -1,0 +1,152 @@
+{% include "header.html" %}
+{% load custom_filter %}
+<style>
+    .table-container {
+    margin-top: 20px;
+    margin-bottom: 5%;
+}
+
+.styled-table {
+    width: 70%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.styled-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.plan_name:hover{
+    color: #1690f0;
+    font-weight: 600;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #ddd;
+}
+</style>
+   
+    <!-- <div class="about-us big-padding">
+        <div class="container-lg">
+            <div class="section-title">
+            <h2 style="margin-top: 1rem;"> Annual Maintenance Contract</h2>
+            <p>Get an Aquaguard Genuine AMC that covers repairs & replacement of worn out parts.</p>
+            </div>
+        </div>
+    </div> -->
+    <div class="page-nav no-margin row">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-start">Annual Maintenance Contract</h2>
+                <ul>
+                    <li> <a href="\"><i class="bi bi-house-door"></i> Home</a></li>
+                    <li><i class="bi bi-chevron-double-right pe-2"></i> Buy amc</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <h4 style="margin-left: 15%;">Check out Our RO AMC Cost table</h4>
+        <p style="margin-left: 15%;">Click on any plan for furthur details.</p>
+        <table class="styled-table" style="margin-left: 15%;">
+        <tbody>
+            <tr>
+                <td>
+                <p><strong>AMC Plan</strong></p>
+                </td>
+                <td>
+                <p><strong>Price</strong></p>
+                </td>
+                <td>
+                <p><strong>Service </strong></p>
+                </td>
+                <td>
+                <p><strong>Filter</strong></p>
+                </td>
+                <td>
+                <p><strong>Membrane</strong></p>
+                </td>
+                <td>
+                <p><strong>Electric Parts</strong></p>
+                </td>
+                <td>
+                <p><strong>Faulty Parts</strong></p>
+                </td>
+            </tr>
+    {% for amc in amc_obj %}
+            <tr>
+                <!-- <input type="text" hidden name="plan_id" value="amc.id"> -->
+                <td>
+                <a href="{% url 'amc_detail_action' amc.id %}" class="plan_name" style="text-decoration: none;">
+                <p>{{amc.plan_name}}</p>
+                </a>
+                </td>
+                <td>
+                <p>{{amc.price|currency}}</p>
+                </td>
+            {% if amc.service %}
+                <td>
+                <p>Yes</p>
+                </td>
+            {% else %}
+                <td>
+                <p>No</p>
+                </td>
+            {% endif %}
+            {% if amc.filter %}
+                <td>
+                <p>Yes</p>
+                </td>
+            {% else %}
+                <td>
+                <p>No</p>
+                </td>
+            {% endif %}
+            {% if amc.membrane %}
+                <td>
+                <p>Yes</p>
+                </td>
+            {% else %}
+                <td>
+                <p>No</p>
+                </td>
+            {% endif %}
+            {% if amc.electric_parts %}
+                <td>
+                <p>Yes</p>
+                </td>
+            {% else %}
+                <td>
+                <p>No</p>
+                </td>
+            {% endif %}
+            {% if amc.faulty_parts %}
+                <td>
+                <p>Yes</p>
+                </td>
+            {% else %}
+                <td>
+                <p>No</p>
+                </td>
+            {% endif %}
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+    <small style="margin-left: 15%;margin-top: 3%;"><b>Note- Water purifiers AMC contract is valid for one year only. Thus you should renew it annually.</b></small>
+    <p style="margin-left: 15%;margin-top: 1%;"><b>--> From the table above where it says 'Yes' it means it is available in the AMC plan, and if it says 'No' then it is not available in AMC plan.</b></p>
+    </div>
+    
+{% include "footer.html" %}

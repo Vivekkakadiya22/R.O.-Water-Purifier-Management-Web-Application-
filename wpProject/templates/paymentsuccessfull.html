@@ -1,0 +1,57 @@
+{% load cart %}
+{% load custom_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .payment-container {
+            max-width: 600px;
+            margin: 50px auto;
+            margin-top: 12%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .pay-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            width: 50%; 
+            margin-top: 20px;                  
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background-color: #0056b3;
+        }
+        img{
+            height: 100px;
+        }
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <img src="/static/assets/images/paymentsuccess.jpg" alt="Payment success logo">
+    <h1>Your Payment was successfull!</h1>
+    <small>Thank you for your payment!!</small>
+    <br>
+    <a href="/"><button class="pay-btn">Done</button></a>
+</div>
+
+</body>
+</html>

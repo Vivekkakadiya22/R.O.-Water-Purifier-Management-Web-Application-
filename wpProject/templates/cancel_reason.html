@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel confirmation Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .payment-container {
+            max-width: 600px;
+            margin: 50px auto;
+            margin-top: 12%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .pay-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            width: 20%; 
+            margin-top: 20px;                  
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background-color: #0056b3;
+        }
+        img{
+            height: 100px;
+        }
+        a{
+            text-decoration: none;
+        }
+        textarea{
+            width: 80%;
+            padding: 8px;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+        table{
+            margin-left: 10%;
+            width: 80%;
+        }
+        td{
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <h2>Why are you want to cancel this order?</h2>
+    <br>
+    <form action="{% url 'confirm_msg_page' %}" method="post">
+        {% csrf_token %}
+        <input type="text" hidden name="order_id" value="{{order_id}}">
+    <table>   
+        <tr>
+            <td>Reason</td>
+            <td> : </td>
+            <td><textarea name="reason" rows="4" placeholder="Describe your reason" required></textarea></td>
+        </tr>
+    </table>
+        <button class="pay-btn" type="submit">Submit</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+{% load cart %}
+{% load custom_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>Checkout Form</title>
+  <!-- Bootstrap CSS -->
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    h2{
+      text-align:center
+    }
+    .checkout-form {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    li{
+      list-style-type: none;
+    }
+    td{
+      padding: 10px;
+    }
+    img{
+        align-items: center;
+    }
+    .qty{
+        border-radius: 25px;
+        width: 20%;
+        text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+                
+  <form class="checkout-form" action="{% url 'checkout_buynow_action' %}" method="post">
+    {% csrf_token %}
+    <h2 class="mb-4">Checkout</h2>
+    {% if message %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+    {% endif %}
+    <input type="text" hidden name="product_id" value="{{products.id}}">
+    <!-- Product Information -->
+    <h4 class="mt-4 mb-3">Product Details</h4>
+    <div class="form-group">
+     <div class="image" style="text-align: center;">
+      <img src="/media/{{products.image_url}}" width="100" alt="product image">
+    </div>
+      <table>
+        <tr>
+            <td>Product Name</td>
+            <td> : </td>
+            <td>{{products.p_name}}</td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td> : </td>
+            <td id="productPrice">{{products.price|currency}}</td>
+        </tr>
+        <tr>
+            <td>Qty</td>
+            <td> : </td>
+            <td><input type="number" min="1" max="10" class="qty" id="Qty" oninput="calculateTotal()" name="qty" value="1"></td>
+        </tr>
+        <tr>
+            <td>Total amount : </td>
+            <td id="totalAmount" colspan="2">{{products.price|currency}}</td>
+            <input type="text" hidden name="totalamount" id="totalAmount2" value="{{products.price}}">
+        </tr>
+    </table>
+    
+    </div>
+    
+    <!-- Billing Information -->
+    <h4 class="mt-4 mb-3">Billing Information</h4>
+    
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="text" maxlength="10" name="phone" class="form-control" id="phone" value="{{customer.phoneNo}}" placeholder="Enter your MobileNo" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea class="form-control" name="address" id="address" placeholder="Enter your address" required>{{customer.address}}</textarea>
+    </div>
+    
+    <!-- Payment Information -->
+    <h4 class="mt-4 mb-3">Payment Information</h4>
+    
+     <div class="form-group">
+      <label for="Payment">Payment Mode</label>
+      <div style="display: flex;">
+        <input type="radio" class="" id="cod" name="paymentmode" value="COD" required style="width: auto;">&nbsp;&nbsp;<label style="padding-top: 5px;" for="COD">COD</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" class="" id="online" name="paymentmode" value="Online" required style="width: auto;">&nbsp;&nbsp;<label style="padding-top: 5px;" for="Online">Online</label>
+      </div>
+    </div>
+    
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Place Order</button>
+    <a href="/products/" class="btn btn-outline-primary">Cancle</a>
+  </form>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    function calculateTotal() {
+    var priceText = document.getElementById('productPrice').innerText;
+    // Remove currency symbol and any commas
+    var price = parseFloat(priceText.replace(/[^\d.-]/g, ''));
+    var qty = parseInt(document.getElementById('Qty').value);
+    var total = price * qty;
+    var totalAmountField = document.getElementById('totalAmount2');
+    totalAmountField.value = total;
+    document.getElementById('totalAmount').innerHTML = "₹" + total;
+}
+
+document.getElementById("Qty").addEventListener("keydown", function(event) {
+    // Prevent input when typing
+    event.preventDefault();
+    
+    // Handle arrow key events
+    if (event.key === "ArrowUp") {
+        // Increase value
+        this.stepUp();
+    } else if (event.key === "ArrowDown") {
+        // Decrease value
+        this.stepDown();
+    }
+});
+
+
+</script>
+
+
+</body>
+</html>

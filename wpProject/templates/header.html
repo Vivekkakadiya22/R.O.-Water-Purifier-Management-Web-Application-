@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+    <title>Aqua Water Purifier | Smarteyeapps.com</title>
+    <link rel="shortcut icon" href="favicon.png">
+
+	<!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+	<link href="css/tiny-slider.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/assets/images/fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/assets/images/fav.jpg">
+    <link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/assets/plugins/testimonial/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/assets/plugins/testimonial/css/owl.theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/style.css" />
+    <link rel="stylesheet" href="/static/assets//css/animate.min.css">
+    
+</head>
+<body class="bg-white">
+  <header>
+        <div id="menu-jk" class="nav-part shadow-md bg-white navcol">
+            <div class="container-lg">
+                <div class="row  p-2">
+                    <div class="col-lg-3 p-2" id="logoDiv">
+                       <a href="/">
+                        <!-- <h2 id="logo">RO WALA</h2> -->
+                        <img src="/static/assets/images/companylogo.png" width="150" height="100">
+                        </a>
+                         <a  data-bs-toggle="collapse" data-bs-target="#menu" class="float-end d-lg-none pt-1 ps-3"><i class="bi pt-1 fs-1 cp bi-list"></i></a>
+                    </div>
+                    <div id="menu" class="col-lg-9 d-none pt-5 d-lg-block">
+                        <ul class="fw-bold nacul fs-7">
+                            <li class="float-start p-3 px-1"><a class="{% if request.path == '/' %} active {% endif %}" id="a1" href="/">Home</a></li>
+                            <li class="float-start p-3 px-1"><a class="{% if request.path == '/aboutus/' %} active {% endif %}" id="a1" href="/aboutus/">About Us</a></li>
+                            <li class="float-start p-3 px-1"><a class="{% if request.path == '/products/' %} active {% endif %}" id="a1" href="/products/">Products</a></li>
+                            <!-- <li class="float-start p-3 px-2"><a class="{% if request.path == '/amc/' %} active {% endif %}" id="a1" href="/amc/">Buy AMC</a></li> -->
+                            <li class="float-start p-3 px-1"><a class="{% if request.path == '/feedback_page/' %} active {% endif %}" id="a1" href="/feedback_page/">Feedback & Rating</a></li>
+                            <li class="float-start p-3 px-1"><a class="{% if request.path == '/contact/' %} active {% endif %}" id="a1" href="/contact/">Contact Us</a></li>
+                            
+                        </ul> 
+                        <a href="/cart/" style="text-decoration: none;">
+                            <img class="cart" src="/static/assets/images/cartlogo.png">
+                            <span class="badge badge-info rounded-circle" style="position: absolute;right: 25%;">
+                                {{ request.session.cart.keys|length }}
+                            </span> 
+                        </a>
+                            {% if 'islogin' in request.session and request.session.islogin  %}
+                                <img src="/static/assets/images/defaultuser.jpg" onclick="toggleMenu()" height="50px" style="border-radius: 50px;" class="user-icon">
+                                <div class="sub-menu-wrap" id="subMenu">
+                                    <div class="sub-menu">
+                                        <div class="user-info">
+                                            <img src="/static/assets/images/defaultuser.jpg">
+                                            <h3>{{ request.session.fname }} {{ request.session.lname }}</h3>
+                                        </div>
+                                        <hr>
+                                        <a href="/profile_page/" class="sub-menu-link">
+                                            <img src="/static/assets/images/profile.png">
+                                            <p>Profile</p>
+                                            <span>></span>
+                                        </a>
+                                        <a href="/change_password/" class="sub-menu-link">
+                                            <img src="/static/assets/images/changepass.png">
+                                            <p>Change Password</p>
+                                            <span>></span>
+                                        </a>
+                                        <a href="{% url 'orders_page' %}" class="sub-menu-link">
+                                            <img src="/static/assets/images/orders.png">
+                                            <p>MyOrders</p>
+                                            <span>></span>
+                                        </a>
+                                        <a href="/logoutUser/" class="sub-menu-link">
+                                            <img src="/static/assets/images/logout.png">
+                                            <p>Sign out</p>
+                                            <span>></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- <li class="float-end d-block px-4">
+                                    <span class="mr-2 username">{{ request.session.fname }} {{ request.session.lname }}!</span>
+                                    <select name="menu" id="signoutBtn">
+                                        <option value="">--Choose--</option>
+                                        <option value="">Sign out</option>
+                                    </select>
+                                     <a href="/logoutUser/"><button class="btn fw-bolder shadow px-3 py-2 btn-outline-primary" id="signoutBtn" name="signout">Sign out</button></a>
+                                </li>-->
+
+                            {% else %}
+                            
+                                <a href="/login/"><button class="btn fw-bolder shadow px-3 py-2 btn-outline-primary signinBtn" id="signinBtn" name="signin" onMouseOut="this.style.color='#1690f0'" onMouseOver="this.style.color='white'" style="background-color: white;color:#1690f0 ;border-color: #1690f0;margin-left: 10px;">Sign in / Sign up</button></a>
+                                
+                            {% endif %}
+                           
+                            
+                    
+                               
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <script>
+        let subMenu=document.getElementById("subMenu");
+
+        function toggleMenu(){
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+   
+
+   
